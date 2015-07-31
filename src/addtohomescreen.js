@@ -143,6 +143,17 @@
 
 	};
 
+    ath.effects = {
+        none: {
+            transitionDuration: '0.0s ease-in',
+            transform: 'translate3d(0,0,0)',
+        },
+        slideInFromTop: {
+            transitionDuration: '1.2s',
+            transform: 'translate3d(0,0,0)',
+        }
+    };
+
 	// Add 2 characters language support (Android mostly)
 	for ( var lang in ath.intl ) {
 		ath.intl[lang.substr(0, 2)] = ath.intl[lang];
@@ -171,7 +182,8 @@
 		onAdd: null,				// when the application is launched the first time from the homescreen (guesstimate)
 		onPrivate: null,			// executed if user is in private mode
 		privateModeOverride: false,	// show the message even in private mode (very rude)
-		detectHomescreen: false		// try to detect if the site has been added to the homescreen (false | true | 'hash' | 'queryString' | 'smartURL')
+		detectHomescreen: false,	// try to detect if the site has been added to the homescreen (false | true | 'hash' | 'queryString' | 'smartURL')
+        effect: 'slideInFromTop',   // effect to use for the popup to appear
 	};
 
 	// browser info and capability
@@ -571,10 +583,11 @@
 
 			// kick the animation
 			setTimeout(function () {
-				that.element.style.webkitTransitionDuration = '1.2s';
-				that.element.style.transitionDuration = '1.2s';
-				that.element.style.webkitTransform = 'translate3d(0,0,0)';
-				that.element.style.transform = 'translate3d(0,0,0)';
+                var effect = ath.effects[that.options.effect || ath.defaults.effect];
+				that.element.style.webkitTransitionDuration = effect.transitionDuration;
+				that.element.style.transitionDuration = effect.transitionDuration;
+				that.element.style.webkitTransform = effect.transform;
+				that.element.style.transform = effect.transform;
 			}, 0);
 
 			// set the destroy timer
